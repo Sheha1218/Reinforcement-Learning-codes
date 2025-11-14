@@ -3,7 +3,6 @@ import numpy as np
 import time 
 import random
 import tensorflow as tf
-import rl
 from rl.agents.dqn import DQNAgent
 from rl.policy import BoltzmannQPolicy
 from rl.memory import SequentialMemory
@@ -29,8 +28,9 @@ for episode in range(episodes):
         score += reward
     
     print("Episode:{} Score: {}".format(episode+1,score))
-    
-    
+env.close()
+
+
 
 def build_model(states,actions):
     model = tf.keras.Sequential()
