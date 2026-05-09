@@ -1,0 +1,1 @@
+uv run python traing.py train 5000 --render
