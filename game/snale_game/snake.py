@@ -30,7 +30,6 @@ class SnakeGame:
         self.reset()
 
     def reset(self):
-        """Reset the game to initial state"""
         self.snake = [(self.width // 2, self.height // 2)]
         self.direction = Direction.RIGHT
         self.food = self._generate_food()
@@ -39,7 +38,6 @@ class SnakeGame:
         return self._get_observation()
 
     def _generate_food(self):
-        """Generate food at random position not occupied by snake"""
         while True:
             food = (random.randint(0, self.width - 1),
                    random.randint(0, self.height - 1))
@@ -47,11 +45,6 @@ class SnakeGame:
                 return food
 
     def take_action(self, action=None):
-        """
-        Take a action in the game
-        For RL: action = Direction enum
-        For manual: action = None (uses self.direction directly)
-        """
         if self.game_over:
             return self._get_observation(), 0, True, False, {}
 
@@ -105,7 +98,6 @@ class SnakeGame:
         return self._get_observation(), reward, terminated, False, {"score": self.score}
 
     def _update_direction(self, action):
-        """Update direction based on action"""
         if action == 0:  # Continue straight
             return
 
@@ -118,7 +110,6 @@ class SnakeGame:
             self.direction = directions[(current_idx - 1) % 4]
 
     def _get_observation(self):
-        """Get current state observation for RL"""
         if not self.snake:
             return np.zeros(11, dtype=np.float32)
 
@@ -154,7 +145,6 @@ class SnakeGame:
         return observation
 
     def _is_collision(self, position, direction):
-        """Check if moving in direction from position would cause collision"""
         x, y = position
 
         # Calculate new position
@@ -179,7 +169,6 @@ class SnakeGame:
         return False
 
     def render(self, mode='human'):
-        """Render the game"""
         if mode == 'human':
             if self.screen is None:
                 pygame.init()
@@ -239,25 +228,22 @@ class SnakeGame:
                 self.clock.tick(30)
 
     def close(self):
-        """Close the rendering window"""
         if self.screen is not None:
             pygame.quit()
             self.screen = None
 
     def play_manual(self, fps=8):
-        """Play the game with manual controls"""
         print("Snake Game - Manual Control")
         print("Arrow Keys: Move | SPACE: Pause | R: Restart | ESC: Quit")
         print("-" * 50)
 
         if self.screen is None:
-            self.render()  # Initialize display
+            self.render()  
 
         paused = False
         running = True
 
         while running:
-            # Handle events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
